@@ -171,7 +171,8 @@ public class AwsServletContext
 
     @Override
     public RequestDispatcher getNamedDispatcher(String s) {
-        throw new UnsupportedOperationException();
+        log.info("getNamedDispatcher(\"{}\")",s);
+        return new AwsProxyRequestDispatcher(s, true, containerHandler);
     }
 
 
@@ -495,6 +496,10 @@ public class AwsServletContext
 
     @Override
     public <T extends EventListener> void addListener(T t) {
+        if (t instanceof ServletContextListener) {
+            // this.servletContextListeners.add((ServletContextListener) t);
+            ((ServletContextListener)t).contextInitialized(new ServletContextEvent(this));
+        }
 
     }
 

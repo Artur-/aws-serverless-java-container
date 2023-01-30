@@ -80,7 +80,8 @@ public class AwsProxyRequestDispatcher implements RequestDispatcher {
         }
 
         if (isNamedDispatcher) {
-            lambdaContainerHandler.doFilter((HttpServletRequest) servletRequest, (HttpServletResponse) servletResponse, getServlet((HttpServletRequest)servletRequest));
+            Servlet servlet = getServlet(dispatchTo);
+            lambdaContainerHandler.doFilter((HttpServletRequest) servletRequest, (HttpServletResponse) servletResponse, servlet);
             return;
         }
 
@@ -148,4 +149,9 @@ public class AwsProxyRequestDispatcher implements RequestDispatcher {
     private Servlet getServlet(HttpServletRequest req) {
         return ((AwsServletContext)lambdaContainerHandler.getServletContext()).getServletForPath(req.getPathInfo());
     }
+
+    private Servlet getServlet(String servletName) throws ServletException {
+        return ((AwsServletContext)lambdaContainerHandler.getServletContext()).getServlet(servletName);
+    }
+
 }

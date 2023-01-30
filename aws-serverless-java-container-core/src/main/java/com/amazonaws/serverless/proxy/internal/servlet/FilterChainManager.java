@@ -158,6 +158,7 @@ public abstract class FilterChainManager<ServletContextType extends ServletConte
         TargetCacheKey key = new TargetCacheKey();
         key.setDispatcherType(type);
         key.setTargetPath(targetPath);
+        key.setServletName(servlet.getServletConfig().getServletName());
 
         if (!filterCache.containsKey(key)) {
             return null;
@@ -256,6 +257,7 @@ public abstract class FilterChainManager<ServletContextType extends ServletConte
 
         private String targetPath;
         private DispatcherType dispatcherType;
+        private String servletName;
 
 
     //-------------------------------------------------------------
@@ -295,8 +297,10 @@ public abstract class FilterChainManager<ServletContextType extends ServletConte
             }
             hashString += ":" + hashDispatcher;
 
+            hashString +=servletName;
             return hashString.hashCode();
         }
+
 
 
         @Override
@@ -324,6 +328,11 @@ public abstract class FilterChainManager<ServletContextType extends ServletConte
         void setDispatcherType(DispatcherType dispatcherType) {
             this.dispatcherType = dispatcherType;
         }
+        public void setServletName(String servletName) {
+            this.servletName = servletName;
+        }
+
+
     }
 
     @SuppressFBWarnings("URF_UNREAD_FIELD")
