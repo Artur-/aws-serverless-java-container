@@ -136,11 +136,11 @@ public class AwsServletContext
         if (mimeTypes == null) {
             mimeTypes = new MimetypesFileTypeMap();
         }
-        if (s.endsWith(".js")) {
-                return "application/javascript";
-        }
         if (s.endsWith(".css")) {
-                return "text/css";
+                return "text/css; charset=utf-8";
+        }
+        if (s.endsWith(".js")) {
+                return "application/javascript; charset=utf-8";
         }
         // TODO: The getContentType method of the MimetypesFileTypeMap returns application/octet-stream
         // instead of null when the type cannot be found. We should replace with an implementation that
